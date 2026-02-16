@@ -1,0 +1,40 @@
+Propriedade	CSS Tradicional	Tailwind CSS
+Padding	padding: 1rem;	p-4
+Margin	margin-top: 0.5rem;	mt-2
+Largura	width: 100%;	w-full
+Altura	height: 50vh;	h-[50vh]
+CSS: font-weight: bold; font-size: 24px; color: blue;
+
+Tailwind: font-bold text-2xl text-blue-600
+
+Arredondamento: rounded-lg em vez de border-radius: 8px;.
+
+Estados (Hover, Focus, Active)
+
+Em vez de criar seletores separados no seu arquivo .css, você usa prefixos diretamente na tag.
+
+    CSS:
+    CSS
+
+    .btn:hover { background-color: darkblue; }
+
+    Tailwind:
+    HTML
+
+    <button class="bg-blue-500 hover:bg-blue-800">...</button>
+
+CSS:
+CSS
+
+.flex-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+}
+
+Tailwind:
+HTML
+
+<div class="flex justify-center items-center gap-4">...</div>
+
