@@ -1,6 +1,6 @@
 <template>
 
-    <button @click="acaoButton" class="bg-yellow-400 text-black p-2 border-1 border-yellow-400 rounded ml-2 mr-2 m-1 transition duration-300
+    <button @click="acaoButton" class="bg-yellow-400 text-black p-2 border-1 border-yellow-400 rounded transition duration-300
         hover:shadow-[0px_0px_15px_#ffd500] hover:text-black">
         {{ textoButton }}
       </button>
