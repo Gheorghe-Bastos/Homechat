@@ -14,7 +14,6 @@
 
 <script setup>
 import loginEChat from './components/loginEChat.vue';
-import FooterHome from './components/footerHome.vue';
 import headerHome from './components/headerHome.vue';
 
 </script>

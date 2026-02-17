@@ -1,25 +1,30 @@
 <template>
 
-    <div class="flex justify-center m-12 w-4xl h-full">
-        <div v-if="divChat" class="flex flex-col justify-center m-6 h-full w-full">
-            <div>
-                <form class="bg-neutral-900 flex  items-stretch w-full p-[1px] rounded-md">
+    <div v-if="divChat" class="flex justify-center m-12 w-4xl h-full">
+        <div class="flex flex-col justify-center m-6 h-full w-full">
+            <div class="flex flex-col">
+                <div>
+                    {{ usuarios }}
+                </div>
+                <form @submit.prevent="enviarMensagem" class="bg-neutral-900 flex  items-stretch w-full p-[1px] rounded-md">
                     <div class="flex w-full h-full rounded-md  focus:outline.none justify-between ">
 
-                        <input id="userName" class="focus:outline-none focus:ring-0 focus:border-1 
+                        <input id="mensagem" class="focus:outline-none focus:ring-0 focus:border-1 
                              focus:border-yellow-400 transition duration-300 focus:shadow-[0px_0px_20px_#ffd500] 
                              border-1 border-[#0000] pl-4 pr-4 font-extralight
                             w-full h-12 text-neutral-200 rounded-l-md" 
-                            placeholder="Digite seu usuário"
-                            v-model="userName"></input>
+                            placeholder="Digite seu usuário" v-model=mensagem></input>
 
-                        <buttonpadrao acao-button="enviarMensagem" texto-button="Enviar"
+                        <buttonpadrao :acao-button="enviarMensagem" texto-button="Enviar"
                             class="w-23 h-12 rounded-r-md rounded-l-[0px]" />
                     </div>
                 </form>
             </div>
         </div>
-        <div v-else class="bg-neutral-900 flex flex-col justify-center items-center m-0 w-2xl 
+    </div>
+
+    <div v-else class="flex justify-center m-12 w-4xl h-full">
+        <div class="bg-neutral-900 flex flex-col justify-center items-center m-0 w-2xl 
         p-8 rounded-2xl shadow-[0px_0px_20px_#ffd500]">
             <h2 class="text-3xl mt-5">Login</h2>
             <h3 class="text-neutral-400 text-lg mb-3">Digite o seu nome de usuario e sua senha
@@ -40,10 +45,9 @@
                     bg-neutral-800 w-full text-neutral-200 rounded-sm" placeholder="Digite sua senha"
                         v-model="password"></input>
                 </div>
-                <p v-if="senhaErro" class="text-sm text-red-700 absolute">{{ senhaErro }}</p>
+                <p v-if="alertaErro" class="text-sm text-red-700 fixed">{{ alertaErro }}</p>
 
                 <buttonpadrao :acao-button="verificar" texto-button="Entrar" class="w-full mt-4 mb-6" />
-
 
                 <div class="flex w-full justify-center text-sm h-1 text-neutral-300">
                     <p>Powered by SALO - Hometech - © 2026</p>
@@ -60,38 +64,72 @@ import { ref } from 'vue';
 import buttonpadrao from './buttonpadrao.vue';
 
 
-const usuario = ref({
-    nome: '',
-    senha: ''
-})
-
+const usuarios = ref([
+    {
+        nome: 'gheorghe',
+        senha: 'gheorghe2006'
+    }
+]);
+const msgs = ref([]);
+const usuarioLogado = ref([]);
 
 const userName = ref('');
 const password = ref('');
-const senhaErro = ref('');
+const alertaErro = ref('');
 const divChat = ref(false);
+const mensagem = ref('');
+
+function buscar(nomeBusca) {
+    
+    for (const u of usuarios.value) {        
+        if (u.nome == nomeBusca) {
+            return u
+        } 
+    } 
+    return null;
+}
 
 function verificar() {
+    const nomeInput = userName.value.trim();
+    const senhaInput = password.value.trim();
 
-    if (userName.value.trim() !== '' && password.value.trim() !== '') {
-        senhaErro.value = '';
+    if (nomeInput === '' || senhaInput === '')  {
 
-        usuario.value = {
-            nome: userName.value,
-            senha: password.value
-        };
-
-        divChat.value = true;
-
-        console.log(usuario.value);
-    }
-    else {
-        senhaErro.value = "Usuario e/ou senha incorretos!";
-        divChat.value = false;
-        userName.value = '';
-        password.value = '';
+        alertaErro.value = 'Preencha todos os campos'
         return;
     }
+    const usuarioExiste = buscar(nomeInput);
+    
+    if (!usuarioExiste && senhaInput !== '') {
+        usuarios.value.push({
+            nome: nomeInput,
+            senha: senhaInput
+        });
+
+        entrarNoChat(nomeInput);
+    } 
+    
+    else { 
+        if (usuarioExiste.senha === senhaInput) {
+
+            entrarNoChat(nomeInput);
+        } 
+        else {
+            password.value = '';
+            alertaErro.value = 'Senha incorreta para este usuário!';
+        }
+    }
 }
+function entrarNoChat(nome) {
+    usuarioLogado.value = nome;
+    userName.value = '';
+    password.value = ''; 
+    divChat.value = true;
+    alertaErro.value ='';
+}
+
+function enviarMensagem() {
+
+};
 
 </script>
