@@ -12,12 +12,33 @@
 
                 </div>
 
-                <div v-else class="flex flex-col gap-0.5">
-                    
-                        <a href="https://github.com/Gheorghe-Bastos" class="transition-all duration-250 hover:text-yellow-400"><img src="../assets/github-branco.svg"></a>
-                        <a href="www.linkedin.com/in/gheorghebastos" class="transition-all duration-300 hover:text-yellow-400 flex justify-between gap-1 mr-2" ><img src="../assets/linkedin-logo-branco.svg"></a>
-                        <a href="gheorghe.bastos.ofc@gmail.com" class="transition-all duration-300 hover:text-yellow-400 "><img src="../assets/contato-branco.svg"></a>
-                    
+                <div v-else class="flex flex-col gap-0.5 mr-2">
+
+
+                    <a href="https://github.com/Gheorghe-Bastos" class="group relative h-6 w-6">
+
+                        <img src="../assets/github-branco.svg"
+                            class="transition-opacity duration-300 group-hover:opacity-0">
+                        <img src="../assets/github-amarelo.svg" class="absolute top-0 let-0 transition-opacity duration-300 
+                            opacity-0 group-hover:opacity-100 group-hover:drop-shadow-[0_0_5px_#ffd500]">
+                    </a>
+
+                    <a href="www.linkedin.com/in/gheorghebastos" class="group relative h-6 w-6">
+
+                        <img src="../assets/linkedin-logo-branco.svg"
+                            class="transition-opacity duration-300 group-hover:opacity-0">
+                        <img src="../assets/linkedin-logo-amarelo.svg" class="absolute top-0 let-0 transition-opacity duration-300 
+                            opacity-0 group-hover:opacity-100 group-hover:drop-shadow-[0_0_5px_#ffd500]">
+
+                    </a>
+
+                    <a href="gheorghe.bastos.ofc@gmail.com" class="group relative h-6 w-6">
+                        <img src="../assets/contato-branco.svg"
+                            class="transition-opacity duration-300 group-hover:opacity-0">
+                        <img src="../assets/contato-amarelo.svg" class="absolute top-0 let-0 transition-opacity duration-300 
+                            opacity-0 group-hover:opacity-100 group-hover:drop-shadow-[0_0_5px_#ffd500]">
+                    </a>
+
                 </div>
 
             </div>
