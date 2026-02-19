@@ -1,7 +1,7 @@
 <template>
     <header>
-        <div class="flex justify-center">
-            <div class="bg-neutral-900 flex justify-center shadow-[0px_15px_25px_#ffd50083]
+        <div class="flex fixed w-full justify-center">
+            <div class="bg-neutral-900 flex justify-center
                 items-center w-full pt-4 gap-3 pl-20 pr-20 h-25">
 
                 <div class="flex justify-between items-center">
