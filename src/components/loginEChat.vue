@@ -4,7 +4,8 @@
         <div class="flex flex-col m-6 h-full w-full">
             <div class="flex flex-col justify-between">
                 <div v-for="(mensagem, index) in mensagemArray"
-                :key="index" class="bg-yellow-400 text-black p-3 m-2">
+                :key="index" class="bg-yellow-400 rounded-xl text-black p-3 m-2
+                 w-fit max-w">
                     {{ mensagem }}
                 </div>
                 <form @submit.prevent="enviarMensagem" class="bg-neutral-900 flex items-stretch w-full p-[1px] rounded-md">
@@ -13,7 +14,7 @@
                              focus:border-yellow-400 transition duration-300 focus:shadow-[0px_0px_20px_#ffd500] 
                              border-1 border-[#0000] pl-4 pr-4 font-extralight
                             w-full h-12 text-neutral-200 rounded-l-md" 
-                            placeholder="Digite seu usuário" v-model=mensagem></input>
+                            placeholder="Digite o que quiser!" v-model=mensagem></input>
 
                         <buttonpadrao :acao-button="enviarMensagem" texto-button="Enviar"
                             class="w-23 h-12 rounded-r-md rounded-l-[0px]" />
