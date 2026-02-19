@@ -1,12 +1,20 @@
 <template>
     <header>
         <div class="flex justify-center">
-            <div class="bg-neutral-900 flex justify-between  shadow-[0px_10px_20px_#ffd50083]
-                items-center mt-4 mr-4 ml-4 w-full h-22 rounded-lg">
-                <div class="flex flex-col ml-2">
-                    <h1 class="text-4xl text-neutral-200">HOMECHAT</h1>
-                    <h1 class="text-neutral-200 text-lg">O Lar da Conversa</h1>
-                </div>
+            <div class="bg-neutral-900 flex justify-between  shadow-[0px_15px_25px_#ffd50083]
+                items-center w-full pt-4 pl-20 pr-20 h-25">
+                
+                    <div class="flex justify-between items-center">
+                        <div>
+                        <img src="../assets/faviconHomechat.png" class=" ml-4 h-20">
+                        </div>
+                        
+                        <div class="flex flex-col ml-2">
+                            <h1 class="text-4xl text-neutral-200">HOMECHAT</h1>
+                            <h1 class="text-neutral-200 text-lg">O Lar da Conversa</h1>
+                        </div>
+
+                    </div>
 
                 <div v-if="divChatAtivado">
 
@@ -32,7 +40,7 @@
 
                     </a>
 
-                    <a href="gheorghe.bastos.ofc@gmail.com" class="group relative h-6 w-6">
+                    <a href="mailto:gheorghe.bastos.ofc@gmail.com" class="group relative h-6 w-6">
                         <img src="../assets/contato-branco.svg"
                             class="transition-opacity duration-300 group-hover:opacity-0">
                         <img src="../assets/contato-amarelo.svg" class="absolute top-0 let-0 transition-opacity duration-300 
