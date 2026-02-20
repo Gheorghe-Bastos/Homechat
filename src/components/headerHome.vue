@@ -2,7 +2,7 @@
     <header>
         <div class="flex fixed w-full justify-center">
             <div class="bg-neutral-900 flex justify-center
-                items-center w-full pt-4 gap-3 pl-20 pr-20 h-25">
+                items-center w-full pt-4 gap-3 pl-20 pr-20 h-25 shadow-lg shadow-[#ffd5003e]">
 
                 <div class="flex justify-between items-center">
                     <div>
