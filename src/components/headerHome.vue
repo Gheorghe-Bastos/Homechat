@@ -15,12 +15,7 @@
                     </div>
 
                 </div>
-
-                <div v-if="divChatAtivado">
-
-                </div>
-
-                <div v-else class="flex flex-col gap-0.5 mr-13">
+                <div class="flex flex-col gap-0.5 mr-13">
 
 
                     <a href="https://github.com/Gheorghe-Bastos" target="blank" class="group relative h-6 w-6 flex">
