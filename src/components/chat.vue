@@ -9,7 +9,7 @@ const { usuarioLogado, divChat } = inject('estadoChat');
 
 const mensagem = ref('');
 const mensagemArray = ref([]);
-const chatConteiner = ref(null);
+const chatContainer = ref(null);
 
 async function enviarMensagem() {
     if (mensagem.value.trim() === '') {
