@@ -1,6 +1,10 @@
 <script setup>
 
-import loginEChat from './loginEChat.vue';
+import { db, auth } from '../service/firebase';
+import { collection, addDoc, serverTimestamp, query, orderBy, onSnapshot, limitToLast } from 'firebase/firestore'
+import { Timestamp } from 'firebase/firestore';
+
+import login from './login.vue';
 import buttonpadrao from './buttonpadrao.vue'
 import { ref, inject } from 'vue';
 import { nextTick } from 'vue';

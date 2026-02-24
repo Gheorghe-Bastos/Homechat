@@ -1,5 +1,6 @@
 <script setup>
 
+import { auth } from '../service/firebase';
 import { ref, inject } from 'vue';
 import buttonpadrao from './buttonpadrao.vue';
 

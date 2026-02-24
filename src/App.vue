@@ -6,7 +6,7 @@
 
   <main class="flex items-center justify-center h-screen">
   <chat v-if="divChat"/>
-  <loginEChat v-else/>
+  <login v-else/>
   </main>
 
   </div>
@@ -14,9 +14,10 @@
 
 <script setup>
 
+import { auth } from './service/firebase';
 import { ref, provide } from 'vue';
 
-import loginEChat from './components/loginEChat.vue';
+import login from './components/login.vue';
 import headerHome from './components/headerHome.vue';
 import chat from './components/chat.vue';
 

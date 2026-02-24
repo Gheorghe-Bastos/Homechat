@@ -50,6 +50,6 @@
 
 <script setup>
 
-import loginEChat from './loginEChat.vue';
+import login from './login.vue';
 
 </script>
