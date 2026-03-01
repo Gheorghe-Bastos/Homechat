@@ -1,6 +1,12 @@
 <script setup>
 
 import { auth } from '../service/firebase';
+import {
+    collection, addDoc, serverTimestamp,
+    query, orderBy, onSnapshot, limitToLast
+} from 'firebase/firestore'
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth'
+
 import { ref, inject } from 'vue';
 import buttonpadrao from './buttonpadrao.vue';
 
@@ -10,53 +16,73 @@ const userName = ref('');
 const password = ref('');
 const alertaErro = ref('');
 
-function buscar(nomeBusca) {
-
-    for (const u of usuariosArray.value) {
-        if (u.nome == nomeBusca) {
-            return u
-        }
-    }
-    return null;
-}
-
-function verificar() {
+async function verificar() {
 
     const nomeInput = userName.value.trim();
     const senhaInput = password.value.trim();
 
-    if (nomeInput === '') {
-
-        alertaErro.value = 'Usuário é obrigatório.'
-        return;
-    }
-    if (senhaInput === '') {
-
-        alertaErro.value = 'Senha é obrigatória.'
+    if (!nomeInput) {
+        alertaErro.value = 'Usuário é obrigatório.';
         return;
     }
 
-    const usuarioExiste = buscar(nomeInput);
+    if (!senhaInput) {
+        alertaErro.value = 'Senha é obrigatória.';
+        return;
+    }
 
-    if (!usuarioExiste && senhaInput !== '') {
-        usuariosArray.value.push({
-            nome: nomeInput,
-            senha: senhaInput
-        });
-        
+    const emailFicticio = `${nomeInput.toLowerCase()}@homechat.com`;
+
+    alertaErro.value = '';
+
+    try {
+
+        // tenta logar
+        await signInWithEmailAndPassword(auth, emailFicticio, senhaInput);
+
         entrarNoChat(nomeInput);
-    }
 
-    else {
-        if (usuarioExiste.senha === senhaInput) {
+    } catch (error) {
 
-            entrarNoChat(nomeInput);
-        }
-        else {
-            alertaErro.value = 'Senha incorreta para este usuário!';
+        console.log("Erro login:", error.code);
+
+        if (
+            error.code === 'auth/user-not-found' ||
+            error.code === 'auth/invalid-credential'
+        ) {
+
+            // cria usuário se não existir
+            try {
+
+                await createUserWithEmailAndPassword(auth, emailFicticio, senhaInput);
+
+                entrarNoChat(nomeInput);
+
+            } catch (createError) {
+
+                console.log("Erro criação:", createError.code);
+
+                if (createError.code === 'auth/weak-password') {
+                    alertaErro.value = 'A senha deve ter pelo menos 6 caracteres.';
+                } else if (createError.code === 'auth/email-already-in-use') {
+                    alertaErro.value = 'Usuário já existe.';
+                } else {
+                    alertaErro.value = 'Erro ao criar usuário.';
+                }
+
+            }
+
+        } else if (error.code === 'auth/wrong-password') {
+
+            alertaErro.value = 'Senha incorreta.';
+
+        } else {
+
+            alertaErro.value = 'Erro ao autenticar usuário.';
         }
     }
 }
+
 function entrarNoChat(nome) {
     usuarioLogado.value = nome;
     userName.value = '';
@@ -92,7 +118,7 @@ function entrarNoChat(nome) {
                         <input id="password" type="password" class="p-1 focus:outline-none focus:ring-0 focus:border-1
                         focus:border-yellow-400 border-1 border-[#0000] pl-1 pr-1 font-extralight
                         bg-neutral-800 w-full text-neutral-200 rounded-sm" placeholder="Digite sua senha"
-                        v-model="password"></input>
+                            v-model="password"></input>
                     </div>
                     <p v-if="alertaErro" class="text-sm text-red-700 m-1.5">{{ alertaErro }}</p>
 

@@ -6,8 +6,7 @@ import { Timestamp } from 'firebase/firestore';
 
 import login from './login.vue';
 import buttonpadrao from './buttonpadrao.vue'
-import { ref, inject } from 'vue';
-import { nextTick } from 'vue';
+import { ref, inject, nextTick, onMounted, onUnmounted } from 'vue';
 
 const { usuarioLogado, divChat } = inject('estadoChat');
 
@@ -15,16 +14,43 @@ const mensagem = ref('');
 const mensagemArray = ref([]);
 const chatContainer = ref(null);
 
+let unsubscribe = null;
+
+onMounted(() => {
+    const q = query(
+        collection(db, "mensagens"),
+        orderBy("horario", "asc"),
+        limitToLast(50)
+    );
+
+    unsubscribe = onSnapshot(q, (snapshot) => {
+        mensagemArray.value = snapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+        }));
+
+        nextTick(() => {
+            if (chatContainer.value) {
+                chatContainer.value.scrollTop = chatContainer.value.scrollHeight;
+            }
+        });
+    });
+});
+
+onUnmounted(() => {
+    if (unsubscribe) unsubscribe();
+});
+
 async function enviarMensagem() {
-    if (mensagem.value.trim() === '') {
-        return null
-    }
-    else {
-        mensagemArray.value.push(
-            mensagem.value
-        )
-        mensagem.value = '';
-    };
+    if (!mensagem.value.trim()) return;
+
+    await addDoc(collection(db, "mensagens"), {
+        mensagem: mensagem.value,
+        usuario: auth.currentUser?.email?.split('@')[0],
+        horario: serverTimestamp(),
+        uid: auth.currentUser?.uid || null
+    });
+    mensagem.value = '';
 
     await nextTick();
 
@@ -47,13 +73,14 @@ async function enviarMensagem() {
                             
                         </div>            
                     </div>-->
-                    <div v-for="(mensagem, index) in mensagemArray" :key="index" class="flex flex-col self-end mb-2">
+                    <div v-for="(mensagem, index) in mensagemArray" :key="mensagem.id"
+                        class="flex flex-col self-end mb-2">
                         <div class="self-end mr-1">
-                            {{ usuarioLogado }}
+                            {{ mensagem.usuario }}
                         </div>
                         <div class="bg-yellow-400 rounded-xl rounded-br-none text-black p-3 
                         w-fit min-w-16">
-                            {{ mensagem }}
+                            {{ mensagem.mensagem }}
                         </div>
                     </div>
                 </div>
