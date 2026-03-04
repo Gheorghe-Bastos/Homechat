@@ -2,7 +2,6 @@
 
 import { db, auth } from '../service/firebase';
 import { collection, addDoc, serverTimestamp, query, orderBy, onSnapshot, limitToLast } from 'firebase/firestore'
-import { Timestamp } from 'firebase/firestore';
 
 import login from './login.vue';
 import buttonpadrao from './buttonpadrao.vue'
@@ -15,6 +14,17 @@ const mensagemArray = ref([]);
 const chatContainer = ref(null);
 
 let unsubscribe = null;
+
+const formatarData = (ts) => {
+    if (!ts) return '...';
+    let data = ts.toDate();
+
+    return data.toLocaleTimeString('pt-BR', {
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+
+}
 
 onMounted(() => {
     const q = query(
@@ -63,24 +73,27 @@ async function enviarMensagem() {
 
 <template>
     <div v-if="divChat" class="flex flex-col-reverse 
-    w-4xl min-h-full bg-neutral-900 border-1 border-2 border-[#ffffff4b] rounded-2xl">
+    w-4xl min-w-sm min-h-full bg-neutral-900 border-1 border-2 border-[#ffffff4b] rounded-2xl">
         <div class="flex flex-col p-4 w-full">
             <div class="flex flex-col w-full ">
                 <div ref="chatContainer" class="h-159 overflow-scroll flex flex-col pr-2">
-                    <!--<div v-for="(mensagem, index) in msgDeTerceirosArray" :key="index" 
-                    class="flex flex-col mb-2">
-                        <div class="ml-1">
-                            
-                        </div>            
-                    </div>-->
-                    <div v-for="(mensagem, index) in mensagemArray" :key="mensagem.id"
-                        class="flex flex-col self-end mb-2">
-                        <div class="self-end mr-1">
+                    <div v-for="mensagem in mensagemArray" :key="mensagem.id" :class="['flex flex-col mb-2',
+                        mensagem.uid === auth.currentUser?.uid ? 'items-end' : 'items-start']">
+
+                        <div
+                            :class="['self-end mr-1 mb-1', mensagem.uid === auth.currentUser?.uid ? 'self-end' : 'self-start']">
                             {{ mensagem.usuario }}
                         </div>
-                        <div class="bg-yellow-400 rounded-xl rounded-br-none text-black p-3 
-                        w-fit min-w-16">
+
+                        <div :class="['rounded-xl p-3 w-fit min-w-16',
+                            mensagem.uid === auth.currentUser?.uid
+                                ? 'bg-yellow-400 text-black rounded-br-none'
+                                : 'bg-neutral-700 text-white rounded-bl-none']">
                             {{ mensagem.mensagem }}
+                            <div
+                                :class="['text-xs', mensagem.uid === auth.currentUser?.uid ? 'text-gray-700' : 'text-gray-400']">
+                                {{ formatarData(mensagem.horario) }}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -90,10 +103,9 @@ async function enviarMensagem() {
                         focus:border-yellow-400 transition duration-300 focus:shadow-[0px_0px_20px_#ffd500] 
                         border border-[#0000] pl-4 pr-4 font-extralight
                         w-full h-12 text-neutral-200 rounded-l-md" placeholder="Digite o que quiser!"
-                            v-model=mensagem></input>
+                            v-model="mensagem"></input>
 
-                        <buttonpadrao :acao-button="enviarMensagem" texto-button="Enviar"
-                            class="w-23 h-12 rounded-r-md rounded-l-none" />
+                        <buttonpadrao texto-button="Enviar" class="w-23 h-12 rounded-r-md rounded-l-none" />
                     </div>
                 </form>
             </div>
