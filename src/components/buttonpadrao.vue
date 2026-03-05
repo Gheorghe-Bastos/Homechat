@@ -1,9 +1,9 @@
 <template>
 
-    <button @click="acaoButton" class="bg-yellow-400 text-black p-2 border-1 border-yellow-400 rounded transform active:scale-95 duration-300
+  <button type="submit" @click="acaoButton" class="bg-yellow-400 text-black p-2 border-1 border-yellow-400 rounded transform active:scale-95 duration-300
         hover:shadow-[0px_0px_15px_#ffd500] hover:text-black">
-        {{ textoButton }}
-      </button>
+    {{ textoButton }}
+  </button>
 
 </template>
 
@@ -16,7 +16,7 @@ defineProps({
   },
   acaoButton: {
     type: Function,
-    default: () => {}
+    default: () => { }
   }
 })
 

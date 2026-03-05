@@ -2,12 +2,12 @@
 
   <div class="">
 
-  <headerHome/>
+    <headerHome />
 
-  <main class="flex items-center justify-center h-screen">
-  <chat v-if="divChat"/>
-  <login v-else/>
-  </main>
+    <main class="flex items-center justify-center h-screen">
+      <chat v-if="divChat" />
+      <login v-else />
+    </main>
 
   </div>
 </template>
@@ -39,9 +39,9 @@ onMounted(() => {
 });
 
 provide('estadoChat', {
-usuarioLogado,
-usuariosArray,
-divChat
+  usuarioLogado,
+  usuariosArray,
+  divChat
 
 })
 

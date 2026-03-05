@@ -23,7 +23,6 @@ const formatarData = (ts) => {
         hour: '2-digit',
         minute: '2-digit'
     });
-
 }
 
 onMounted(() => {
@@ -81,17 +80,17 @@ async function enviarMensagem() {
                         mensagem.uid === auth.currentUser?.uid ? 'items-end' : 'items-start']">
 
                         <div
-                            :class="['self-end mr-1 mb-1', mensagem.uid === auth.currentUser?.uid ? 'self-end' : 'self-start']">
+                            :class="['self-end mr-1 ml-1 mb-1 text-neutral-300', mensagem.uid === auth.currentUser?.uid ? 'self-end' : 'self-start']">
                             {{ mensagem.usuario }}
                         </div>
 
-                        <div :class="['rounded-xl p-3 w-fit min-w-16',
+                        <div :class="['rounded-xl p-3 w-fit min-w-16 max-w-[75%] break-words',
                             mensagem.uid === auth.currentUser?.uid
                                 ? 'bg-yellow-400 text-black rounded-br-none'
                                 : 'bg-neutral-700 text-white rounded-bl-none']">
                             {{ mensagem.mensagem }}
                             <div
-                                :class="['text-xs', mensagem.uid === auth.currentUser?.uid ? 'text-gray-700' : 'text-gray-400']">
+                                :class="['text-xs ', mensagem.uid === auth.currentUser?.uid ? 'text-gray-700 text-end' : 'text-gray-400']">
                                 {{ formatarData(mensagem.horario) }}
                             </div>
                         </div>
